@@ -1,0 +1,21 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig.json",
+    "compilerOptions": {
+        "target": "ES2015",
+        "lib": ["es2019", "dom"],
+        "module": "ESNext",
+        "skipLibCheck": true,
+
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+
+        "strict": true,
+
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true
+    }
+}
+
