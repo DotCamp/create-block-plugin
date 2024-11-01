@@ -7,11 +7,10 @@ import prompts from 'prompts'
 // Avoids autoconversion to number of the project name by defining that the args
 // non associated with an option ( _ ) needs to be parsed as a string. See #4606
 const argv = minimist<{
-  template?: string
   help?: boolean
 }>(process.argv.slice(2), {
   default: { help: false },
-  alias: { h: 'help', t: 'template' },
+  alias: { h: 'help' },
   string: ['_'],
 })
 const cwd = process.cwd()
@@ -26,7 +25,7 @@ const renameFiles: Record<string, string | undefined> = {
   _gitignore: '.gitignore',
 }
 
-const defaultTargetDir = 'vite-project'
+const defaultTargetDir = 'my-block-plugin'
 
 async function init() {
   const argTargetDir = formatTargetDir(argv._[0])
@@ -51,6 +50,11 @@ async function init() {
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
+  if (pkgManager !== 'pnpm') {
+      console.log(
+          "The plugin scaffold provided by this package is a pnpm monorepo (workspace) and requires pnpm to work."
+      );
+  }
 
   try {
     result = await prompts(
@@ -168,16 +172,8 @@ async function init() {
       }`,
     )
   }
-  switch (pkgManager) {
-    case 'yarn':
-      console.log('  yarn')
-      console.log('  yarn dev')
-      break
-    default:
-      console.log(`  ${pkgManager} install`)
-      console.log(`  ${pkgManager} run dev`)
-      break
-  }
+  console.log(`  pnpm install`)
+  console.log(`  pnpm run dev`)
   console.log()
 }
 
